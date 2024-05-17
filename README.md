@@ -2,6 +2,10 @@
 
 Tässä repossa testailu tehdään seleniumkirjastolla ja hyödyntäen OpenAI:n Assistantteja.
 
+## Codespacen käynnistys
+
+Asenna kirjastot komennolla
+``pip install -r requirements.txt``
 
 ## Työkalut
 
