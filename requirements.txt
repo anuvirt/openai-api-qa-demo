@@ -1,0 +1,5 @@
+robotframework
+robotframework-seleniumlibrary
+requests
+openai
+pytest-playwright
