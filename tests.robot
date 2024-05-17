@@ -106,21 +106,6 @@ Invalid Login Test
     ${current_url}=    Get Location
     Should Be Equal As Strings    ${current_url}    ${SUCCESS_URL}
 
-Read Sql data
-    [Documentation]    Tests a valid login scenario.
-    [Setup]       AI Setup
-    [Teardown]    AI Teardown
-    [Tags]    sql
-    Add File To Assistant    foob     imaginary_webshop_sales_data.sql
-    Ask Question From Assistant   using given imaginary_webshop_sales_data.sql file, please list all values for field "address"
-
-
-Create SQL data
-    [Documentation]    Tests a valid login scenario.
-    [Setup]        Prepare Assistant    roboAssistant      youe are knowledgeful sql master and reply back sql code
-    [Teardown]     Delete Assistant
-    [Tags]    sqlcreate
-    Ask Question From Assistant   create me a sql database dump for imaginary webshop product sales data with 40 entries
 
 Playwright Python
     [Documentation]    Tests a valid login scenario.
