@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation     A test suite for the login functionality of the practice test automation website.
 Library           SeleniumLibrary
-Library           ChatGptAssistant.py   verbose=True
+#Library           ChatGptAssistant.py   verbose=True
 Library           OperatingSystem
 
 
@@ -20,6 +20,7 @@ Test Teardown
     Close Browser
 
 AI Setup
+    [Tags]  openbrowser
    # Prepare Assistant    roboAssistant
     Open Browser    ${URL}    ${BROWSER}
 
