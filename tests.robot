@@ -6,7 +6,7 @@ Library           OperatingSystem
 
 
 *** Variables ***
-${BROWSER}        Chrome
+${BROWSER}        Headless Chrome
 ${URL}            https://practicetestautomation.com/practice-test-login/
 ${USERNAME}       student
 ${PASSWORD}       Password123
@@ -20,7 +20,7 @@ Test Teardown
     Close Browser
 
 AI Setup
-    [Tags]  openbrowser
+    [Tags]   openbrowser
    # Prepare Assistant    roboAssistant
     Open Browser    ${URL}    ${BROWSER}
 
@@ -43,7 +43,7 @@ Test assistant usage
 
 Valid Login Test
     [Documentation]    Tests a valid login scenario.
-    [Setup]       Open Browser    ${URL}    ${BROWSER}
+    [Setup]       Open Browser    ${URL}    ${BROWSER}    options=binary_location="/usr/local/bin/chrome"
     [Teardown]    Test Teardown
     [Tags]    passing
     Wait Until Page Contains Element    id:username    10s
@@ -129,4 +129,3 @@ Figma File Test Plan
     # Create File    ${OUTPUT DIR}/page.html    ${page_source}
     Add File To Assistant    testpage       ${OUTPUT DIR}/figmasample.pdf
     Ask Question From Assistant   using given figmasample.pdf file, please describe what the application is for. What does it do? Generate at least 3 test cases for the mobile app it represents, login not included in the tests. Use only List the test steps and also generate RobotFramework test script using AppiumLibrary for Robot Framework
-
