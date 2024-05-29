@@ -1,6 +1,5 @@
 from openai import OpenAI
 import os, sys
-import base64
 
 
 class ChatGptAssistant():
@@ -19,8 +18,7 @@ class ChatGptAssistant():
         
         self.apikey = os.environ.get('OPENAI_API_KEY')
         if self.apikey in ["", None]:
-                print("ERROR: OPENAI_API_KEY not given as environment variable")
-                sys.exit(1)
+            raise ValueError("OPENAI_API_KEY value not given")
 
 
 

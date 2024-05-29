@@ -3,8 +3,7 @@ import requests
 import os
 
 # OpenAI API Key
-api_key = os.environ.get('OPENAI_API_KEY')
-
+api_key = ""   
 
 # Function to encode the image
 def encode_image(image_path):
@@ -44,6 +43,8 @@ payload = {
   "max_tokens": 300
 }
 
+if api_key in ["", None]:
+  raise ValueError("api_key value not given")
 response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
 
 print(response.json())
