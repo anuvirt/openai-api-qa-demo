@@ -15,7 +15,7 @@ class ChatGptAssistant():
         #{name:{id, fileObj}
         self.files = {}
         self.client = None
-        
+
         self.apikey = os.environ.get('OPENAI_API_KEY')
         if self.apikey in ["", None]:
             raise ValueError("OPENAI_API_KEY value not given")
@@ -28,24 +28,24 @@ class ChatGptAssistant():
 
     def prepare_assistant(self, name, description= None):
         self.client = self._client_create()
-     
+
         self.assistant = self._assistant_create(name, description)
         self.thread = self._thread_create()
 
     def add_file_to_assistant(self, name, filepath):
-        # Create a vector store 
+        # Create a vector store
         vector_store = self.client.beta.vector_stores.create(name=name)
- 
+
         # Ready the files for upload to OpenAI
         file_paths = [filepath]
         file_streams = [open(path, "rb") for path in file_paths]
- 
+
         # Use the upload and poll SDK helper to upload the files, add them to the vector store,
         # and poll the status of the file batch for completion.
         file_batch = self.client.beta.vector_stores.file_batches.upload_and_poll(
         vector_store_id=vector_store.id, files=file_streams
         )
- 
+
         # You can print the status and the file counts of the batch to see the result of this operation.
         print(file_batch.status)
         print(file_batch.file_counts)
@@ -53,7 +53,7 @@ class ChatGptAssistant():
             assistant_id=self.assistant.id,
         tool_resources={"file_search": {"vector_store_ids": [vector_store.id]}},
         )
-     
+
 
     def ask_question_from_assistant(self, message):
         messageObj = self._thread_add_message(self.thread.id, message)
@@ -64,7 +64,7 @@ class ChatGptAssistant():
 
     def clear_assistant_converstion_history(self):
         self._thread_delete(self.thread)
-        self.thread = None        
+        self.thread = None
 
     def delete_files(self):
         for file in self.files:
@@ -92,7 +92,7 @@ class ChatGptAssistant():
         if self.verbose:
             print("Client props:")
             print(client)
-        return client      
+        return client
 
     ### Assistant functions
     def _assistant_create(self, name, description=None):
@@ -126,7 +126,7 @@ class ChatGptAssistant():
         if self.verbose:
             print("Assistants list:")
             for assistant in assistants:
-                print("Name: %s\t\tId: %s" % (assistant.name, assistant.id))    
+                print("Name: %s\t\tId: %s" % (assistant.name, assistant.id))
         return assistants
 
     def _assistant_delete(self, assistantid):
@@ -138,7 +138,7 @@ class ChatGptAssistant():
         if self.verbose:
             print("Assisntant deleted:")
             print(result)
-        return result    
+        return result
 
     def _assistant_add_file(self, assistantid, fileid):
         if self.verbose:
@@ -151,7 +151,7 @@ class ChatGptAssistant():
             print("Assisntant File props:")
             print(result)
 
- 
+
 
         return result
 
@@ -176,7 +176,7 @@ class ChatGptAssistant():
         if self.verbose:
             print("Assisntant props:")
             print(assistant)
-        return assistant  
+        return assistant
 
 
     ### File operations
@@ -187,7 +187,7 @@ class ChatGptAssistant():
         if self.verbose:
             print("Files list:")
             for file in files:
-                print("Name: %s\t\tId: %s" % (file.filename, file.id))    
+                print("Name: %s\t\tId: %s" % (file.filename, file.id))
         return files
 
     def _file_upload(self, content):
@@ -213,7 +213,7 @@ class ChatGptAssistant():
         if self.verbose:
             print("File deletion:")
             print(deletion)
-        return deletion    
+        return deletion
 
 
     #Thread operations
@@ -237,7 +237,7 @@ class ChatGptAssistant():
         if self.verbose:
             print("Assisntant props:")
             print(result)
-        return result  
+        return result
 
     def _thread_add_message(self, threadid, message):
         if self.verbose:
@@ -251,7 +251,7 @@ class ChatGptAssistant():
         if self.verbose:
             print("Message:")
             print(message)
-        return message  
+        return message
 
     #Run operations
     def _run_create(self, threadid, assistantid):
@@ -265,7 +265,7 @@ class ChatGptAssistant():
         if self.verbose:
             print("Run:")
             print(run)
-        return run  
+        return run
 
     def _run_wait_processed(self, run, threadid):
         if self.verbose:
@@ -302,14 +302,16 @@ class ChatGptAssistant():
         return answer
 
 
-
-
+    def store_to_file(self, name, data):
+        f = open(name, "w")
+        f.write(data)
+        f.close()
 
 
 
 
 if __name__ == "__main__":
-    
+
     # # TEST BASIC COMMUNICATION
     # print("Hello World")
     # oracle = ChatGptAssistant(verbose=True)
@@ -326,7 +328,3 @@ if __name__ == "__main__":
     oracle.add_file_to_assistant("testfilez", "page.html")
     oracle.ask_question_from_assistant("how to do a working login test on provided html format page.html file. Use locators and data from the provided html file")
     oracle.delete_assistant()
-
-
-    
-    
